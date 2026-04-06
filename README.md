@@ -19,52 +19,28 @@ Job-Application-Tracker/
 ## **How to Run the Project**
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/Bridgetamana/Job-Application-Tracker.git
-    cd job-application-tracker
+    git clone https://github.com/ANUROOP-REDDY-07/Job-Application-Tracker.git
+    cd Job-Application-Tracker
     ```
 
-3. **Install all dependencies** (optional convenience script):
+2. **Install root dependencies**:
+    ```bash
+    npm install
+    ```
+
+3. **Install frontend and backend dependencies** (all at once):
     ```bash
     npm run install:all
     ```
-    Or install separately as described below.
 
-4. **Install backend dependencies**:
-    ```bash
-    cd backend
-    npm install
-    cd ..
-    ```
-
-5. **Install frontend dependencies**:
-    ```bash
-    cd frontend
-    npm install
-    cd ..
-    ```
-
-6. **Start both servers** (convenience script):
+4. **Start the application**:
+    Run a single command from your root directory to boot both the frontend and backend servers together!
     ```bash
     npm run dev
     ```
-    This will start both the backend and frontend servers concurrently.
+    This will start the backend on `http://localhost:5002` securely and the frontend on `http://localhost:8080`.
 
-7. **Or start servers separately**:
-
-    **Start the backend server**:
-    ```bash
-    cd backend
-    npm start
-    ```
-    The backend will run on `http://localhost:5002`
-
-    **Start the frontend development server** (in a new terminal):
-    ```bash
-    cd frontend
-    npm run dev
-    ```
-
-8. **Open the application**:
+5. **Open the application**:
    - Navigate to `http://localhost:8080` in your web browser.
 
 ## **API Endpoints**
