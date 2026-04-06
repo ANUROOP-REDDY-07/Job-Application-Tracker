@@ -20,18 +20,17 @@ const SideBar = () => {
     setOpenLogoutModal(!openLogoutModal);
   };
 
-  const findPageTitle = () => {
-    const currentItem = menuItems.find((item) =>
-      location.pathname.endsWith(item.path)
-    );
-    if (currentItem) {
-      setPageTitle(currentItem.label);
-    } else {
-      setPageTitle("");
-    }
-  };
-
   useEffect(() => {
+    const findPageTitle = () => {
+      const currentItem = menuItems.find((item) =>
+        location.pathname.endsWith(item.path)
+      );
+      if (currentItem) {
+        setPageTitle(currentItem.label);
+      } else {
+        setPageTitle("");
+      }
+    };
     findPageTitle();
   }, [location.pathname, menuItems]);
 

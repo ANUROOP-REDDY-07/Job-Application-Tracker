@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { FaPlus, FaList, FaThLarge } from "react-icons/fa";
 import { LuSearch } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
+import axios from "axios";
 import AddNewJobs from "../Components/AddNewJob";
 import EditJobModal from "../Components/EditJobModal";
 
@@ -15,9 +16,16 @@ const Applications = () => {
   const [isCardView, setIsCardView] = useState(true);
 
   useEffect(() => {
-    // Load jobs from localStorage when component mounts
-    const storedJobs = JSON.parse(localStorage.getItem("jobs")) || [];
-    setJobs(storedJobs);
+    // Load jobs from API when component mounts
+    const fetchJobs = async () => {
+      try {
+        const response = await axios.get('http://localhost:5002/api/jobs');
+        setJobs(response.data);
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+      }
+    };
+    fetchJobs();
   }, []);
 
   useEffect(() => {
@@ -29,13 +37,22 @@ const Applications = () => {
     setShowJobModal(true);
   };
 
-  const handleAddJob = (newJob) => {
-    const jobWithId = { ...newJob, id: Date.now() }; // Ensure each job has a unique ID
-    setJobs([...jobs, jobWithId]);
+  const handleAddJob = async (newJob) => {
+    try {
+      const response = await axios.post('http://localhost:5002/api/jobs', newJob);
+      setJobs([...jobs, response.data]);
+    } catch (error) {
+      console.error('Error adding job:', error);
+    }
   };
 
-  const handleEditJob = (updatedJob) => {
-    setJobs(jobs.map((job) => (job.id === updatedJob.id ? updatedJob : job)));
+  const handleEditJob = async (updatedJob) => {
+    try {
+      await axios.put(`http://localhost:5002/api/jobs/${updatedJob.id}`, updatedJob);
+      setJobs(jobs.map((job) => (job.id === updatedJob.id ? updatedJob : job)));
+    } catch (error) {
+      console.error('Error editing job:', error);
+    }
   };
 
   const handleOpenEditModal = (job) => {
@@ -43,8 +60,13 @@ const Applications = () => {
     setShowEditModal(true);
   };
 
-  const handleDeleteJob = (jobToDelete) => {
-    setJobs(jobs.filter((job) => job.id !== jobToDelete.id)); // Compare by ID
+  const handleDeleteJob = async (jobToDelete) => {
+    try {
+      await axios.delete(`http://localhost:5002/api/jobs/${jobToDelete.id}`);
+      setJobs(jobs.filter((job) => job.id !== jobToDelete.id));
+    } catch (error) {
+      console.error('Error deleting job:', error);
+    }
   };
 
   const handleCheckJob = (job) => {

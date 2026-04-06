@@ -81,6 +81,7 @@ const Signup = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
+                autoComplete="name"
                 className="block w-full rounded-lg outline-none py-2 px-2.5 mt-2 text-gray-dark shadow-sm border border-gray"
               />
             </div>
@@ -113,6 +114,7 @@ const Signup = () => {
                 value={password}
                 onChange={handlePasswordChange}
                 required
+                autoComplete="new-password"
                 className="block w-full rounded-lg outline-none py-2 px-2.5 mt-2 text-gray-dark shadow-sm border border-gray"
               />
               {passwordError && (

@@ -4,6 +4,7 @@ import { LuUserCircle2, LuSearch } from "react-icons/lu";
 import { FaLongArrowAltRight, FaRegLightbulb } from "react-icons/fa";
 import { BsBriefcase } from "react-icons/bs";
 import { CiMenuKebab } from "react-icons/ci";
+import axios from "axios";
 import DashboardCard from "../Components/DashboardCard";
 import "chart.js/auto";
 
@@ -11,18 +12,22 @@ const Dashboard = () => {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [jobs, setJobs] = useState([]);
-  const [applicationData, setApplicationData] = useState([]);
   const [chartType, setChartType] = useState("pie");
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const storedJobs = JSON.parse(localStorage.getItem("jobs")) || [];
-    const storedData =
-      JSON.parse(localStorage.getItem("applicationData")) || [];
-    const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+    const fetchJobs = async () => {
+      try {
+        const response = await axios.get('http://localhost:5002/api/jobs');
+        setJobs(response.data);
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+      }
+    };
+    fetchJobs();
 
-    setJobs(storedJobs);
-    setApplicationData(storedData);
+    // For now, keep user data in localStorage or add API later
+    const storedUser = JSON.parse(localStorage.getItem("user")) || {};
     setUserName(storedUser.name || "");
     setUserEmail(storedUser.email || "");
   }, []);
@@ -32,23 +37,13 @@ const Dashboard = () => {
     return acc;
   }, {});
 
-  const chartData = {
+
+  const data = {
     labels: Object.keys(jobStatusCount),
     datasets: [
       {
-        label: "Job Applications",
-        data: Object.values(jobStatusCount),
-        backgroundColor: "#4CAF50",
-      },
-    ],
-  };
-
-  const data = {
-    labels: applicationData.map((item) => item.status),
-    datasets: [
-      {
         label: "Applications",
-        data: applicationData.map((item) => item.count),
+        data: Object.values(jobStatusCount),
         backgroundColor: ["#36A2EB", "#FFCE56", "#00842B", "#FF6384"],
         hoverOffset: 4,
       },
@@ -96,16 +91,13 @@ const Dashboard = () => {
     return "Good Evening";
   };
 
-  const totalApplications = applicationData.reduce(
-    (sum, item) => sum + item.count,
+  const totalApplications = Object.values(jobStatusCount).reduce(
+    (sum, count) => sum + count,
     0
   );
-  const totalRejected =
-    applicationData.find((item) => item.status === "Rejected")?.count || 0;
-  const totalInterviews =
-    applicationData.find((item) => item.status === "Interview")?.count || 0;
-  const totalOffers =
-    applicationData.find((item) => item.status === "Offer")?.count || 0;
+  const totalRejected = jobStatusCount.rejected || 0;
+  const totalInterviews = jobStatusCount.interview || 0;
+  const totalOffers = jobStatusCount.offered || 0;
 
   return (
     <div>

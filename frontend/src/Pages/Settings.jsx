@@ -17,7 +17,7 @@ const Settings = () => {
           Change password
         </h2>
         <p className="text-gray mb-6">Manage your account password</p>
-        <form>
+        <form onSubmit={(e) => e.preventDefault()}>
           {/* Current Password */}
           <div>
             <label className="sr-only">Current Password</label>

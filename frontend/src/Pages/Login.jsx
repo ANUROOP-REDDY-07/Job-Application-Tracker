@@ -80,6 +80,7 @@ const Login = () => {
                 value={password}
                 onChange={handlePasswordChange}
                 required
+                autoComplete="current-password"
                 className="block w-full rounded-lg outline-none py-2 px-2.5 text-gray-dark shadow-sm border border-gray"
               />
             </div>

@@ -1,0 +1,42 @@
+
+C:\Projects\job application tracker\Job-Application-Tracker\frontend\src\App.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Projects\job application tracker\Job-Application-Tracker\frontend\src\Components\AddNewJob.jsx
+  1:8   error  'React' is defined but never used             no-unused-vars
+  3:23  error  'setJobModal' is missing in props validation  react/prop-types
+  3:36  error  'onAddJob' is missing in props validation     react/prop-types
+
+C:\Projects\job application tracker\Job-Application-Tracker\frontend\src\Components\DashboardCard.jsx
+  3:26  error  'to' is missing in props validation           react/prop-types
+  3:30  error  'icon' is missing in props validation         react/prop-types
+  3:42  error  'title' is missing in props validation        react/prop-types
+  3:49  error  'description' is missing in props validation  react/prop-types
+
+C:\Projects\job application tracker\Job-Application-Tracker\frontend\src\Components\DeleteAccountModal.jsx
+  1:8   error  'React' is defined but never used                       no-unused-vars
+  3:30  error  'setDeleteAccountModal' is missing in props validation  react/prop-types
+
+C:\Projects\job application tracker\Job-Application-Tracker\frontend\src\Components\EditJobModal.jsx
+  3:25  error  'job' is missing in props validation           react/prop-types
+  3:30  error  'setEditModal' is missing in props validation  react/prop-types
+  3:44  error  'onEditJob' is missing in props validation     react/prop-types
+
+C:\Projects\job application tracker\Job-Application-Tracker\frontend\src\Components\LogoutModal.jsx
+  1:8   error  'React' is defined but never used                    no-unused-vars
+  4:24  error  'setOpenLogoutModal' is missing in props validation  react/prop-types
+
+C:\Projects\job application tracker\Job-Application-Tracker\frontend\src\Components\Navbar.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Projects\job application tracker\Job-Application-Tracker\frontend\src\Components\SideBar.jsx
+  36:6  warning  React Hook useEffect has a missing dependency: 'findPageTitle'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Projects\job application tracker\Job-Application-Tracker\frontend\src\Pages\Dashboard.jsx
+  40:9  error  'chartData' is assigned a value but never used  no-unused-vars
+
+C:\Projects\job application tracker\Job-Application-Tracker\frontend\src\Pages\Jobsearch.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+✖ 19 problems (18 errors, 1 warning)
+
