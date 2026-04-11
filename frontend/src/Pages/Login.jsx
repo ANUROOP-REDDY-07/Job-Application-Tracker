@@ -12,7 +12,7 @@ const Login = () => {
     setPassword(newPassword);
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -20,23 +20,28 @@ const Login = () => {
       return;
     }
 
-    const user = JSON.parse(localStorage.getItem("user"));
-
-    if (!user) {
-      alert("No user details found for this email.");
-      return;
-    }
-
-    if (user.email === email && user.password !== password) {
-      alert("Incorrect password. Please try again.");
-      return;
-    }
-
-    if (user.email === email && user.password === password) {
+    try {
+      const response = await fetch("http://localhost:5002/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        setFormError(data.message || "Invalid email or password.");
+        return;
+      }
+      
+      localStorage.setItem("token", data.accessToken);
+      localStorage.setItem("user", JSON.stringify(data.user));
       setFormError("");
       navigate("/dashboard"); 
-    } else {
-      setFormError("Invalid email or password.");
+
+    } catch (err) {
+      console.error(err);
+      setFormError("Server error. Please try again.");
     }
   };
 

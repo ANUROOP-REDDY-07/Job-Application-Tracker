@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #F8FAFC;
+    color: #0F172A;
+    @apply font-sans antialiased transition-colors duration-300;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-surface-glass backdrop-blur-md border border-white/40 shadow-glass;
+  }
+  .glass-gradient {
+    @apply bg-glass-grad backdrop-blur-xl border border-white/20 shadow-soft rounded-2xl;
+  }
+}
+
+/* Custom modern scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-gray/30 rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray/50;
+}

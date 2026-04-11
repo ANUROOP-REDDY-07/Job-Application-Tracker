@@ -48,18 +48,23 @@ const Signup = () => {
     setPasswordError(errorMessage);
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     if (emailError || passwordError) {
       return;
     }
-    const userData = {
-      name,
-      email,
-      password,
-    };
-    localStorage.setItem("user", JSON.stringify(userData));
-    navigate("/login");
+    
+    try {
+      await fetch("http://localhost:5002/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password })
+      });
+      navigate("/login");
+    } catch (err) {
+      console.error(err);
+      alert("Registration failed");
+    }
   };
 
   return (

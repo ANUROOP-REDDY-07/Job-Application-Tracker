@@ -9,6 +9,7 @@ import Applications from "./Pages/Applications";
 import Jobsearch from "./Pages/Jobsearch";
 import Profile from "./Pages/Profile";
 import Settings from "./Pages/Settings";
+import InterviewAssistant from "./Pages/InterviewAssistant";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="job" element={<Jobsearch />} />
           <Route path="profile" element={<Profile />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="interview" element={<InterviewAssistant />} />
         </Route>
       </Routes>
     </Router>

@@ -62,6 +62,14 @@ const EditJobModal = ({ job, setEditModal, onEditJob }) => {
               <option value="offered">Offered</option>
               <option value="rejected">Rejected</option>
             </select>
+            <textarea
+              name="notes"
+              value={editedJob.notes || ""}
+              onChange={handleInputChange}
+              placeholder="Notes for this job application..."
+              className="border border-light-gray rounded-md p-2 outline-none focus:ring-[1px] focus:ring-[#E0E1E6]"
+              rows="3"
+            />
             <div className="flex gap-3 justify-end">
               <button
                 type="button"

@@ -37,6 +37,21 @@ const Applications = () => {
     setShowJobModal(true);
   };
 
+  const handleSyncEmails = async () => {
+    try {
+      const response = await axios.post('http://localhost:5002/api/email/sync');
+      if (response.data.success) {
+        alert(response.data.message);
+        // Refresh local job list
+        const latestJobs = await axios.get('http://localhost:5002/api/jobs');
+        setJobs(latestJobs.data);
+      }
+    } catch (error) {
+      console.error('Error syncing emails:', error);
+      alert('Failed to sync emails. Make sure the backend is running.');
+    }
+  };
+
   const handleAddJob = async (newJob) => {
     try {
       const response = await axios.post('http://localhost:5002/api/jobs', newJob);
@@ -85,13 +100,19 @@ const Applications = () => {
             <p className="font-semibold">{jobs.length}</p>
           </span>
           <button
-            className="bg-black text-white rounded-full py-2 px-2.5 flex justify-center items-center gap-3 text-sm"
+            className="bg-gradient-to-r from-brand to-brand-dark text-white rounded-full py-2.5 px-4 flex justify-center items-center gap-2 text-sm shadow-md shadow-brand/20 hover:shadow-lg hover:shadow-brand/30 hover:-translate-y-0.5 transition-all duration-300 font-medium"
             onClick={handleOpenJobModal}
           >
             <p className="hidden md:flex">Add new Job</p>
             <span className="text-sm">
               <FaPlus />
             </span>
+          </button>
+          <button
+            className="glass-panel text-primary-text hover:bg-white hover:shadow-soft rounded-full py-2.5 px-4 flex justify-center items-center gap-2 text-sm transition-all duration-300 font-medium"
+            onClick={handleSyncEmails}
+          >
+            <p className="hidden md:flex">Sync Emails</p>
           </button>
         </div>
       </span>
@@ -136,8 +157,10 @@ const Applications = () => {
           {["all", "applied", "interview", "offered", "rejected"].map((tab) => (
             <li className="me-2" key={tab}>
               <button
-                className={`inline-block p-4 ${
-                  activeTab === tab ? "border-b-2" : ""
+                className={`inline-block px-5 py-3 rounded-full font-medium transition-all duration-300 ${
+                  activeTab === tab 
+                    ? "bg-dark-gray text-white shadow-soft" 
+                    : "text-secondary-text hover:bg-light-gray/50"
                 }`}
                 onClick={() => setActiveTab(tab)}
               >
@@ -156,16 +179,16 @@ const Applications = () => {
             .map((job) => (
               <div
                 key={job.id}
-                className="rounded-lg overflow-hidden mt-4 cursor-pointer hover:shadow-lg bg-[#F8F9F8] border border-light-gray"
+                className="rounded-2xl p-5 mt-4 cursor-pointer glass-panel !shadow-sm hover:!shadow-soft hover:-translate-y-1 transition-all duration-300 group"
                 onClick={() => handleOpenEditModal(job)}
               >
-                <div className="p-4">
-                  <div className="flex justify-between items-center">
-                    <p className="text-teal text-lg font-semibold">
+                <div>
+                  <div className="flex justify-between items-start">
+                    <p className="text-brand font-semibold text-lg line-clamp-1">
                       {job.jobTitle}
                     </p>
                     <span
-                      className="text-gray text-lg cursor-pointer"
+                      className="text-tertiary-text hover:text-error hover:bg-red-light p-1.5 rounded-full transition-colors cursor-pointer opacity-0 group-hover:opacity-100"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleDeleteJob(job);
@@ -174,29 +197,33 @@ const Applications = () => {
                       <MdClose />
                     </span>
                   </div>
-                  <h3 className="text-xl mt-2">{job.companyName}</h3>
-                  <p className="text-xs text-gray mt-2">
-                    {job.status} on{" "}
-                    {new Date(job.applicationDate).toLocaleDateString()}
-                  </p>
+                  <h3 className="text-primary-text font-medium mt-1">{job.companyName}</h3>
+                  <div className="flex items-center gap-2 mt-4 text-xs font-medium">
+                    <span className={`px-2.5 py-1 rounded-full capitalize ${job.status === 'applied' ? 'bg-blue-light text-blue' : job.status === 'interview' ? 'bg-orange-light text-orange' : job.status === 'offered' ? 'bg-green-light text-green' : 'bg-red-light text-red'}`}>
+                      {job.status}
+                    </span>
+                    <span className="text-secondary-text">
+                      {new Date(job.applicationDate).toLocaleDateString()}
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
         </div>
       ) : (
         // Job List view
-        <div className="overflow-x-auto rounded-t-2xl">
+        <div className="overflow-x-auto glass-panel rounded-2xl mx-1 my-4">
           <table className="w-full text-sm text-left">
-            <thead className="bg-[#E2E6E4] text-primary-text">
+            <thead className="bg-[#F8FAFC] text-secondary-text uppercase text-xs font-semibold border-b border-light-gray/50">
               <tr>
-                <th className="px-6 py-3"></th>
-                <th className="px-6 py-3">Title</th>
-                <th className="px-6 py-3">Company</th>
-                <th className="px-6 py-3">Status</th>
-                <th className="px-6 py-3">Date</th>
+                <th className="px-6 py-4"></th>
+                <th className="px-6 py-4">Title</th>
+                <th className="px-6 py-4">Company</th>
+                <th className="px-6 py-4">Status</th>
+                <th className="px-6 py-4">Date</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-light-gray/50">
               {jobs
                 .filter(
                   (job) => activeTab === "all" || job.status === activeTab

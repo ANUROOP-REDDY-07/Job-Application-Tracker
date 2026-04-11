@@ -5,6 +5,7 @@ const AddNewJobs = ({ setJobModal, onAddJob }) => {
   const [companyName, setCompanyName] = useState("");
   const [applicationDate, setApplicationDate] = useState("");
   const [status, setStatus] = useState("applied");
+  const [notes, setNotes] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -13,12 +14,14 @@ const AddNewJobs = ({ setJobModal, onAddJob }) => {
       companyName,
       applicationDate,
       status,
+      notes,
     };
     onAddJob(newJob);
     setJobTitle("");
     setCompanyName("");
     setApplicationDate("");
     setStatus("applied");
+    setNotes("");
     setJobModal(false);
   };
 
@@ -63,6 +66,13 @@ const AddNewJobs = ({ setJobModal, onAddJob }) => {
               <option value="offered">Offered</option>
               <option value="rejected">Rejected</option>
             </select>
+            <textarea
+              placeholder="Notes for this job application..."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className="border border-light-gray rounded-md p-2 outline-none focus:ring-[1px] focus:ring-[#E0E1E6]"
+              rows="3"
+            />
             <div className="flex gap-3 justify-end">
               <button
                 type="submit"
